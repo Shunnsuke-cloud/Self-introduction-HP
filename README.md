@@ -2,6 +2,12 @@
 
 占部 駿祐の人柄、趣味、活動経験を紹介する1ページの個人ホームページです。Next.js App Router / TypeScript / Tailwind CSS / Motion / Lucide React を使用しています。データベース・認証・フォーム・環境変数は不要です。
 
+## 公開サイト
+
+**公開URL：[https://self-introduction-hp.vercel.app/](https://self-introduction-hp.vercel.app/)**
+
+Vercelへデプロイ済みです。
+
 採用バージョン：Next.js 16.4.3、React 19.3.1、TypeScript 6.0.3、Tailwind CSS 4.3.3、Motion 14.7.1、Lucide React 1.62.0。ESLintはNext.js用プラグインの対応範囲に合わせた9.39.5です。バージョンを固定し、`package-lock.json` を保存しています。
 
 ## ローカル起動
@@ -77,31 +83,42 @@ Tech. C. Venture は提供された公式ロゴを、白い背景と余白を設
 
 JPHACKS画像の公開利用条件は未確認です。公開前に確認し、利用しない場合は `src/lib/content.ts` の `showJphacksImage` を `false` にすると、テキストと汎用アイコンへ切り替わります。
 
-## GitHubへのpush（承認後にユーザーが実行）
+## 更新内容のGitHubへの反映
 
-この作業では外部リポジトリ作成、push、本番公開は実行していません。
+変更後はローカルで表示とチェックを確認し、対象リポジトリへ反映します。
 
-1. GitHubで公開先のリポジトリを用意します。
-2. `git status` で内容を確認します。画像とメールアドレスが公開可能か確認してください。
-3. 次を実行します。
+```sh
+npm run lint
+npm run typecheck
+npm run build
+git status
+git diff
+```
+
+変更内容を確認してからコミット・pushします。
 
 ```sh
 git add .
-git commit -m "Build Shunsuke Urabe personal website"
-git branch -M main
+git commit -m "Update personal website"
+git push origin main
 ```
 
-4. `git remote -v` で接続先を確認し、未設定なら `git remote add origin <実際のリポジトリURL>` を実行します。既存の接続先を無断で上書きしないでください。
-5. `git push -u origin main` を実行します。
+接続先は `git remote -v` で確認できます。
 
-## Vercelへのデプロイ（承認後にユーザーが実行）
+## Vercelでの更新・再デプロイ
+
+本番サイトは [self-introduction-hp.vercel.app](https://self-introduction-hp.vercel.app/) で公開しています。
+
+GitHub連携でProduction Branchを `main` に設定している場合、`main` へのpushで本番が更新されます。Vercelのプロジェクト画面のDeploymentsからビルド結果と公開状態を確認してください。
+
+プロジェクトを再設定する場合の構成：
 
 1. Vercelの Add New → Project から対象GitHubリポジトリをインポート。
 2. Framework Preset は Next.js、Root Directory はリポジトリルート。
 3. Build Command は `npm run build`。Output Directory は既定値のまま。環境変数は不要。
 4. Production Branch を `main` に設定し、内容を確認して Deploy。
 5. 以降の `main` へのpushは本番デプロイのトリガーになります。
-6. 公開URLを決めてから `layout.tsx` に正しい `metadataBase` / canonical を設定してください。現時点では架空ドメインを設定していません。OG画像は相対URLで生成します。
+6. SEO設定を更新する場合は、`src/app/layout.tsx` の `metadataBase` に `https://self-introduction-hp.vercel.app`、canonical に `https://self-introduction-hp.vercel.app/` を使用します。現在のコードではこれらを未設定のため、必要に応じて設定し、再デプロイ後にOG画像とSNSプレビューを確認してください。
 
 公式ドキュメント：
 
@@ -111,13 +128,13 @@ git branch -M main
 - [Motion の動きを減らす設定](https://motion.dev/docs/react-use-reduced-motion)
 - [Vercel Git連携](https://vercel.com/docs/git)
 
-## 公開前の確認
+## 公開後・更新時の確認
 
 - JPHACKS画像の利用条件、写真に写る方の公開同意、プロフィール・卒業予定・就職活動状況を確認。
 - Tech. C. Venture の正式ロゴの表示を確認。
 - メールアドレスと外部リンクの掲載先・表示内容を確認。
 - iOS / Androidの実機で写真・改行・タップ操作を確認。
-- 公開ドメイン設定後、OG画像とSNSプレビューを確認。
+- 公開URLでOG画像とSNSプレビューを確認。
 
 検証結果は `VERIFICATION.md` に記録します。
 
